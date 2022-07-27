@@ -53,12 +53,12 @@ def cart(request):
         if serializer.is_valid():
             serializer.save()
             return Response(data=serializer.data)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(data={'message': 'Data is not valid'}, status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'DELETE':
         try:
             cart_item = GoodInCart.objects.get(good=request.data['good'], customer=request.data['customer'])
         except GoodInCart.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         cart_item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(data={'message': 'Good is deleted from cart'}, status=status.HTTP_204_NO_CONTENT)
 
